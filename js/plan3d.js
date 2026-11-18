@@ -3,7 +3,7 @@ const PXM=46.5,PX0=68,PZ0=815;
 const mx=p=>(p-PX0)/PXM,mz=p=>(p-PZ0)/PXM;
 const wx=x=>x*PXM+PX0,wz=z=>z*PXM+PZ0;
 let OPS=OPS0.map(o=>Object.assign({},o)),SEL=null,EDITM='dev';
-try{const c=JSON.parse(localStorage.getItem('casa.cfg')||'null');if(c&&c.ops&&c.ops.length)OPS=c.ops}catch(e){}
+try{const c=JSON.parse(localStorage.getItem('casa.cfg')||'null');if(c&&c.ops&&c.ops.length&&c.planVer===PLAN_VER)OPS=c.ops}catch(e){}
 const FLOORS=[
  ['Banho social',[80,822,170,940],'#8fa6ad',null,'5,00'],['Depósito',[80,948,166,1082],'#a9a79f',null,'6,00'],['Área para varal',[70,1092,170,1212],'#aaa99f',null,'5,59'],
  ['Lavanderia',[80,1216,166,1340],'#8fa6ad',null,'4,99'],['Despensa',[80,1346,166,1462],'#a9a79f',null,'4,99'],
@@ -15,10 +15,10 @@ const FLOORS=[
  ['Garagem',[440,1600,702,1925],'#7d838a','outside:1','30,17']
 ];
 const FURN=[
- [522,858,600,905,.5,'#ece8df'],[547,1182,620,1260,.5,'#ece8df'],[516,1505,596,1580,.5,'#ece8df'],
- [232,1535,284,1650,.8,'#4a6fa5'],[320,1558,366,1626,.4,'#8a6a4a'],[268,1655,312,1700,.8,'#4a6fa5'],
+ [522,858,600,905,.5,'#ece8df'],[548,1185,620,1260,.5,'#ece8df'],[516,1510,596,1588,.5,'#ece8df'],
+ [232,1535,284,1650,.8,'#4a6fa5'],[283,1545,365,1640,.4,'#8a6a4a'],[267,1480,312,1530,.8,'#4a6fa5'],[268,1653,312,1705,.8,'#4a6fa5'],
  [255,1260,336,1372,.9,'#8d949b'],[180,1220,205,1420,.9,'#cfcabd'],
- [280,850,346,965,.95,'#8d949b'],[300,1035,356,1165,.75,'#6b4a31'],[396,945,422,1012,.9,'#cfcabd'],[386,858,426,938,2,'#b9b5ab'],
+ [280,850,346,965,.95,'#8d949b'],[278,995,355,1130,.75,'#6b4a31'],[396,945,422,1012,.9,'#cfcabd'],[386,858,426,938,2,'#b9b5ab'],
  [465,1630,545,1795,.9,'#aeb6bf'],[580,1630,660,1795,.9,'#aeb6bf'],
  [88,1630,176,1660,.75,'#6b4a31']
 ];
@@ -103,7 +103,7 @@ function init3D(){
   const lg=new THREE.ShapeGeometry(lot);lg.rotateX(-Math.PI/2);const lawn=new THREE.Mesh(lg,mat3('#2c5a3a'));lawn.receiveShadow=true;scene.add(lawn);
   scene.add(bx(68,100,460,505,.04,'#3f8c4c',0,null,false),bx(125,1785,360,1900,.07,'#3f8c4c',0,null,false));
   [[68,510,216,815],[216,718,436,815],[216,510,436,551],[430,551,436,718]].forEach(r=>scene.add(bx(r[0],r[1],r[2],r[3],.08,'#8a6a45')));
-  scene.add(bx(436,510,630,815,.06,'#a5a9ae'),bx(630,815,692,1598,.06,'#a5a9ae'),bx(68,1750,410,1925,.05,'#8f949a'));
+  scene.add(bx(436,510,630,552,.06,'#a5a9ae'),bx(436,552,630,815,.05,'#3f8c4c'),bx(630,815,692,1598,.06,'#a5a9ae'),bx(68,1750,410,1925,.05,'#8f949a'));
   [[216,551,430,565],[216,704,430,718],[216,565,230,704],[416,565,430,704]].forEach(r=>{scene.add(bx(r[0],r[1],r[2],r[3],.12,'#e6e1d6'));scene.add(bx(r[0],r[1],r[2],r[3],1.5,'#4ba7d1',-1.5,null,false))});
   scene.add(bx(230,565,416,704,.05,'#2f7fa6',-1.5,null,false));
   const water=new THREE.Mesh(new THREE.PlaneGeometry(186/PXM,139/PXM),mat3('#4fb6e0',{transparent:true,opacity:.8}));water.rotation.x=-Math.PI/2;water.position.set(mx(323),-.18,mz(634.5));scene.add(water);

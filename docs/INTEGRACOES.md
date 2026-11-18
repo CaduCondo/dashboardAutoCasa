@@ -1,11 +1,14 @@
 # O que usar para cada app
 
+Nunca usou o Home Assistant? Comece por [COMECAR_AQUI.md](COMECAR_AQUI.md).
+
 Importante: o painel não conversa com os aplicativos (Guardian, SmartLife, etc.). Ele conversa com o **Home Assistant**, e o Home Assistant conversa com os aparelhos. Esta tabela é a melhor rota conhecida para cada um. **Nada disto foi testado com os seus aparelhos**; confirme o modelo antes de comprar qualquer coisa.
 
 | Aparelho / app | Rota no Home Assistant | Observações |
 |---|---|---|
 | **SmartLife (Tuya)**: interruptores, alimentador, aspirador, irrigação | Integração oficial **Tuya** (nuvem) ou **LocalTuya** (rede local, HACS) | A oficial pede um projeto gratuito em iot.tuya.com e vincular a conta do SmartLife por QR code. Alimentador vira `button`/`switch`; aspirador vira `vacuum`. |
 | **Sonoff** (interruptores, persianas) | **SonoffLAN** (HACS, rede local) ou eWeLink | Modo LAN é mais rápido e funciona sem internet. Persianas precisam do modelo/firmware que suporte `cover`. |
+| **Magic Home** (fitas de LED) | Integração **Magic Home** (local, já inclusa) | Costuma ser detectada sozinha. |
 | **LG** (TV) | Integração **LG webOS Smart TV** (rede local) | A TV precisa estar ligada na rede e permitir controle. Liga por Wake-on-LAN. |
 | **TCL** (TV) | Se for Google TV/Android TV: **Android TV Remote**. Se for Roku TV: **Roku** | Confirme o sistema da TV. |
 | **Daikin** (3 ar-condicionados) | Integração **Daikin AC** (local) | Precisa do adaptador Wi-Fi do modelo (BRP069/BRP072/BRP084 conforme a geração). |

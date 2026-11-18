@@ -73,7 +73,7 @@ gi('blinds').forEach(it=>it.sch=[{d:[1,2,3,4,5],t:'07:00',a:'Abrir',on:true},{d:
 gi('pet')[0].sch=[{d:ALL,t:'07:30',on:true},{d:ALL,t:'18:30',on:true}];
 gi('pet')[1].sch=[{d:[2,4],t:'10:00',on:true}];
 
-function save(){try{const s={};GROUPS.forEach(g=>g.items.forEach((it,i)=>{if(it.sch)s[g.id+i]=it.sch}));localStorage.setItem('casa.cfg',JSON.stringify({sch:s,scenes:SCENES,rules:RULES,voice:VOICE,cams:CAMS.map(c=>c.n),pos3:POS3,ops:OPS}))}catch(e){}}
+function save(){try{const s={};GROUPS.forEach(g=>g.items.forEach((it,i)=>{if(it.sch)s[g.id+i]=it.sch}));localStorage.setItem('casa.cfg',JSON.stringify({sch:s,scenes:SCENES,rules:RULES,voice:VOICE,cams:CAMS.map(c=>c.n),pos3:POS3,ops:OPS,planVer:PLAN_VER}))}catch(e){}}
 function schTxt(it){const s=(it.sch||[]).filter(x=>x.on);if(!s.length)return '';return s.map(x=>{const dias=x.d.length===7?'Todos os dias':x.d.length?x.d.map(i=>DIAS[i]).join(', '):'Sem dias';const w=it.sk==='cover'?x.a+' às '+x.t:it.sk==='dur'?x.t+' · '+x.m+' min':'às '+x.t;return dias+' · '+w}).join(' | ')}
 
 /* ---------- cenas, regras e interfone ---------- */

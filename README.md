@@ -24,7 +24,7 @@ Para abrir no tablet na mesma rede: `HOST=0.0.0.0 npm start` e acesse `http://IP
 
 ## Conectar de verdade
 
-Leia [docs/INSTALACAO.md](docs/INSTALACAO.md) (passo a passo do Home Assistant e do painel) e [docs/INTEGRACOES.md](docs/INTEGRACOES.md) (o que usar para cada app: Guardian, Allo Plus, SmartLife, Sonoff, LG, TCL, Daikin, Tapo).
+Nunca usou o Home Assistant? Comece por [docs/COMECAR_AQUI.md](docs/COMECAR_AQUI.md). Depois leia [docs/INSTALACAO.md](docs/INSTALACAO.md) (passo a passo do Home Assistant e do painel) e [docs/INTEGRACOES.md](docs/INTEGRACOES.md) (o que usar para cada app: Guardian, Allo Plus, SmartLife, Sonoff, LG, TCL, Daikin, Tapo).
 
 Resumo: instalar o Home Assistant, adicionar cada integração, criar um token, abrir o painel, tocar em **Conexão**, colocar o endereço e o token, vincular cada dispositivo a uma entidade (há botão de sugestão automática) e exportar cenas, regras e horários para o Home Assistant.
 
