@@ -1,0 +1,18 @@
+# Exemplo para rodar o Home Assistant e o painel juntos num mini PC / Raspberry Pi / NAS.
+# O Home Assistant precisa de rede "host" para descobrir aparelhos (Daikin, TVs, câmeras ONVIF).
+services:
+  homeassistant:
+    image: ghcr.io/home-assistant/home-assistant:stable
+    container_name: homeassistant
+    network_mode: host
+    restart: unless-stopped
+    volumes:
+      - ./ha-config:/config
+      - /etc/localtime:/etc/localtime:ro
+  go2rtc:            # recomendado para as câmeras Intelbras/Tapo (RTSP -> imagem fluida no painel)
+    image: alexxit/go2rtc
+    container_name: go2rtc
+    network_mode: host
+    restart: unless-stopped
+    volumes:
+      - ./go2rtc:/config

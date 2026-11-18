@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Painel da Casa</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Sora:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body><div class="app">
+  <header>
+    <div><h1>Painel da Casa</h1><div class="clock" id="clock"></div></div>
+    <div class="stats" id="stats"></div>
+    <div class='tabs'><button class='tab' id='tabPanel' data-view-go='panel' aria-pressed='true'>Painel</button><button class='tab' id='tabPlan' data-view-go='plan' aria-pressed='false'>Planta</button><button class='tab ghost' id='fs'>Tela cheia</button><button class='tab ghost' data-view='conn' id='cfgBtn'>Conexão <span id='cfgDot' class='dot off'></span></button></div>
+  </header>
+  <div class='viewbox' id='viewPanel'>
+    <section class="cams" id="cams" aria-label="Câmeras"></section>
+    <section class="tiles" id="tiles" aria-label="Dispositivos agrupados"></section>
+  </div>
+  <div class='viewbox' id='viewPlan' hidden>
+    <div class='plan-bar'><div class='chips' id='planChips'></div><div class='plan-tools' id='planTools'></div></div>
+    <div class='plan-bar'><div class='chips' id='planViews'></div></div>
+    <div class='stage' id='stage'></div>
+    <p class='note'>Arraste para girar, use dois dedos para aproximar e mover. Toque num ícone para ligar ou desligar e segure para ver os detalhes. A casa foi montada a partir da sua planta. Toque no nome de um cômodo para ver os dispositivos dele. Em Editar mapa você move os ícones e corrige onde ficam as portas e janelas.</p>
+  </div>
+</div>
+<nav class='scenes' id='scenes' aria-label='Cenas'></nav>
+
+<div class="layer" id="layer" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="lt">
+    <div class="sheet-h">
+      <div class="ico avatar" id="li" style="background:var(--surface-2);color:var(--fg)"></div>
+      <div class="grow"><h2 id="lt"></h2><div class="sub" id="ls"></div></div>
+      <button class="x" id="lx" aria-label="Fechar">✕</button>
+    </div>
+    <div class="sheet-b" id="lb"></div>
+  </div>
+</div>
+<div class="toast" id="toast" hidden></div>
+<div class='banner' id='banner' hidden><div class='avatar pulse'>E</div><div class='grow'><b>Interfone chamando</b><div class='sub'>Entregador na portaria</div></div><button class='btn primary' data-a='ans'>Atender</button><button class='btn danger' data-a='dis'>Recusar</button></div>
+<script src="vendor/three.min.js"></script>
+<script src="vendor/OrbitControls.js"></script>
+<script src="config.local.js" onerror="void 0"></script>
+<script src="js/logic.js"></script>
+<script src="js/core.js"></script>
+<script src="js/plan-data.js"></script>
+<script src="js/plan3d.js"></script>
+<script src="js/bridge.js"></script>
+<script src="js/ui.js"></script>
+</body>
+</html>
