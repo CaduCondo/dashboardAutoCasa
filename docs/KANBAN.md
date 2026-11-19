@@ -25,16 +25,23 @@ Nunca cole o token em chat, issue ou arquivo do repositório.
 
 ## Colunas do quadro
 
-O campo **Status** do quadro deve ter estas opções (você pode editar em **Status → ⋯ → Edit options**):
+O campo **Status** do quadro pode usar qualquer um destes nomes (maiúsculas e minúsculas não importam):
 
-`Backlog`, `Pronto para fazer`, `Em andamento`, `Em teste`, `Feito`, `Bloqueado`
+| Estado | Nomes aceitos |
+|---|---|
+| backlog | Backlog, Todo, A fazer |
+| pronto | Pronto para fazer, Pronto, Ready, TO-DO |
+| andamento | Em andamento, In progress, WIP |
+| teste | Em teste, Em revisão, In review, In Tests |
+| feito | Feito, Done, Concluído, DONE |
+| bloqueado | Bloqueado, Blocked, BLOCK |
 
-Se o quadro ainda tiver as colunas padrão do GitHub (Todo, In Progress, Done), o workflow usa essas, com aproximações: Pronto vira Todo, Em teste e Bloqueado ficam onde der. Por isso vale criar as seis colunas.
+O quadro atual usa: `Backlog`, `TO-DO`, `WIP`, `In Tests`, `DONE`, `BLOCK`. Se um estado não achar coluna, o workflow usa a aproximação mais próxima (pronto vira Backlog, teste vira andamento) e escreve um aviso no log.
 
 ## Situação
 
 - O mapeamento de estado para coluna tem testes automáticos.
-- **A parte que fala com o quadro de verdade ainda não foi testada**, porque depende do token acima. Será testada na primeira execução depois que o segredo existir.
+- A conversa com o quadro real funciona (testada em 19/11/2026 com o token do dono).
 
 ## Alternativa sem token
 
