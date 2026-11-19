@@ -2,7 +2,7 @@
 
 Atualizado a cada Pull Request que muda a situação de uma fase. O quadro Kanban mostra o dia a dia; este arquivo mostra o caminho e o que depende de quê.
 
-Situação em **19/11/2026**.
+Situação em **19/11/2026** (atualizado no Pull Request da issue #25).
 
 ## Visão geral
 
@@ -25,9 +25,9 @@ Painel de demonstração, planta 3D com editor de portas e janelas, cenas, regra
 
 | Issue | O quê | Estado |
 |---|---|---|
-| #27 | Processo de trabalho e roadmap | em andamento |
-| #24 | Testes BDD com Robot Framework e GitHub Actions | em andamento |
-| #25 | Kanban atualizado automaticamente | pronto para fazer |
+| #27 | Processo de trabalho e roadmap | feito |
+| #24 | Testes BDD com Robot Framework e GitHub Actions | feito (11 cenários; o restante em #26) |
+| #25 | Kanban atualizado automaticamente | em teste: falta o token `PROJECT_TOKEN` (docs/KANBAN.md) |
 | #26 | Portar os 27 testes JavaScript para Robot | backlog |
 | #28 | Fluxo de produção e teste de fumaça | backlog |
 
