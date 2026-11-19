@@ -11,11 +11,11 @@ const { execFileSync } = require('child_process');
 /* Nomes de coluna aceitos para cada estado (o quadro padrão do GitHub usa Todo / In Progress / Done). */
 const COLUNAS = {
   backlog: ['Backlog', 'Todo', 'A fazer'],
-  pronto: ['Pronto para fazer', 'Pronto', 'Ready'],
-  andamento: ['Em andamento', 'In progress', 'In Progress'],
-  teste: ['Em teste', 'Em revisão', 'In review', 'In Review'],
-  feito: ['Feito', 'Done', 'Concluído'],
-  bloqueado: ['Bloqueado', 'Blocked']
+  pronto: ['Pronto para fazer', 'Pronto', 'Ready', 'TO-DO', 'TO DO'],
+  andamento: ['Em andamento', 'In progress', 'WIP'],
+  teste: ['Em teste', 'Em revisão', 'In review', 'In Tests'],
+  feito: ['Feito', 'Done', 'Concluído', 'DONE'],
+  bloqueado: ['Bloqueado', 'Blocked', 'BLOCK']
 };
 const FALLBACK = { pronto: 'backlog', teste: 'andamento', bloqueado: 'backlog' };
 

@@ -36,3 +36,9 @@ test('quadro: todas as consultas GraphQL têm sintaxe válida (o GitHub recusou 
     assert.doesNotThrow(() => parse(Q[nome]), `${nome} com sintaxe inválida`);
   });
 });
+
+const REAIS = ['Backlog', 'TO-DO', 'WIP', 'In Tests', 'DONE', 'BLOCK'].map((name, i) => ({ id: 'r' + i, name }));
+test('quadro: com as colunas reais do quadro (TO-DO, WIP, In Tests, DONE, BLOCK) cada estado acha a sua', () => {
+  const esperado = { backlog: 'Backlog', pronto: 'TO-DO', andamento: 'WIP', teste: 'In Tests', feito: 'DONE', bloqueado: 'BLOCK' };
+  Object.entries(esperado).forEach(([estado, coluna]) => assert.equal(escolherOpcao(estado, REAIS)?.name, coluna, estado));
+});
