@@ -32,7 +32,7 @@ function escolherOpcao(estado, opcoes) {
   return procura(COLUNAS[estado] || []) || (FALLBACK[estado] ? procura(COLUNAS[FALLBACK[estado]]) : undefined);
 }
 
-const CONSULTA_QUADRO = `query($owner:String!,$n:Int!){ user(login:$owner){ projectV2(number:$n){ id fields(first:30){ nodes{ ... on ProjectV2SingleSelectField{ id name options{ id name } } } } } } } }`;
+const CONSULTA_QUADRO = `query($owner:String!,$n:Int!){ user(login:$owner){ projectV2(number:$n){ id fields(first:30){ nodes{ ... on ProjectV2SingleSelectField{ id name options{ id name } } } } } } }`;
 const MUTACAO_ADICIONAR = `mutation($p:ID!,$c:ID!){ addProjectV2ItemById(input:{projectId:$p,contentId:$c}){ item{ id } } }`;
 const MUTACAO_STATUS = `mutation($p:ID!,$i:ID!,$f:ID!,$o:String!){ updateProjectV2ItemFieldValue(input:{projectId:$p,itemId:$i,fieldId:$f,value:{singleSelectOptionId:$o}}){ projectV2Item{ id } } }`;
 
