@@ -1,0 +1,39 @@
+name: Quadro Kanban
+
+# Copia a etiqueta estado:* de cada issue para a coluna Status do quadro.
+# Precisa do segredo PROJECT_TOKEN (veja docs/KANBAN.md). Sem ele, só avisa e não faz nada.
+on:
+  issues:
+    types: [opened, reopened, closed, labeled, unlabeled]
+  workflow_dispatch:
+    inputs:
+      todas:
+        description: 'Sincronizar todas as issues'
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+  issues: read
+
+jobs:
+  sincronizar:
+    name: Atualizar o quadro
+    runs-on: ubuntu-latest
+    env:
+      GH_REPO: ${{ github.repository }}
+      GH_TOKEN: ${{ github.token }}
+      PROJECT_TOKEN: ${{ secrets.PROJECT_TOKEN }}
+      PROJECT_OWNER: CaduCondo
+      PROJECT_NUMBER: '7'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Uma issue
+        if: github.event_name == 'issues'
+        run: node tools/quadro.js --issue ${{ github.event.issue.number }}
+      - name: Todas as issues
+        if: github.event_name == 'workflow_dispatch'
+        run: node tools/quadro.js --all
