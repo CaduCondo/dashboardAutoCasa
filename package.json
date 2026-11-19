@@ -5,7 +5,7 @@
   "description": "Painel unificado da casa: câmeras, interfone, luzes, clima, TVs, piscina, irrigação e planta 3D. Conversa com o Home Assistant.",
   "scripts": {
     "start": "node tools/serve.js",
-    "test:unit": "node --test tests/unit.test.js tests/backlog.test.js",
+    "test:unit": "node --test tests/unit.test.js tests/backlog.test.js tests/kanban.test.js",
     "test:e2e": "node --test --test-concurrency=1 tests/e2e.test.js",
     "test": "npm run test:unit && npm run test:e2e",
     "lint": "node tools/lint.js"

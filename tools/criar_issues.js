@@ -7,7 +7,9 @@
 const fs = require('fs'), path = require('path'), { execFileSync } = require('child_process');
 
 const COLUNAS = ['Backlog', 'Pronto para fazer', 'Em andamento', 'Em teste', 'Feito', 'Bloqueado'];
-const CORES = { tipo: '1d76db', area: '0e8a16', prioridade: 'd93f0b', bloqueado: 'b60205' };
+const ESTADO = { 'Backlog': 'backlog', 'Pronto para fazer': 'pronto', 'Em andamento': 'andamento', 'Em teste': 'teste', 'Feito': 'feito', 'Bloqueado': 'bloqueado' };
+const estadoDe = coluna => 'estado:' + (ESTADO[coluna] || 'backlog');
+const CORES = { tipo: '1d76db', area: '0e8a16', prioridade: 'd93f0b', estado: 'fbca04', bloqueado: 'b60205' };
 
 function parseIssue(text, file) {
   const m = text.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
@@ -15,7 +17,10 @@ function parseIssue(text, file) {
   const meta = {};
   m[1].split('\n').forEach(l => { const i = l.indexOf(':'); if (i > 0) meta[l.slice(0, i).trim()] = l.slice(i + 1).trim(); });
   if (!meta.title) throw new Error(`${file}: falta title`);
-  return { file, title: meta.title, labels: (meta.labels || '').split(',').map(s => s.trim()).filter(Boolean), column: meta.column || 'Backlog', body: m[2].trim() };
+  const column = meta.column || 'Backlog';
+  const labels = (meta.labels || '').split(',').map(s => s.trim()).filter(Boolean);
+  if (!labels.some(l => l.startsWith('estado:'))) labels.push(estadoDe(column));
+  return { file, number: parseInt(file, 10), title: meta.title, labels, column, body: m[2].trim() };
 }
 
 function carregar(dir) {
@@ -55,5 +60,5 @@ function main(argv) {
   console.log('Para pôr no quadro: no projeto, "Add item" > repositório > selecionar tudo; ou ligue o fluxo "Auto-add to project".');
 }
 
-module.exports = { parseIssue, carregar, COLUNAS };
+module.exports = { parseIssue, carregar, COLUNAS, ESTADO, estadoDe };
 if (require.main === module) main(process.argv.slice(2));
