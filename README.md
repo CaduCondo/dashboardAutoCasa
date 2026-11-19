@@ -45,6 +45,10 @@ tools/                servidor local e extração da planta
 docs/                 instalação, integrações, revisão e a planta usada
 ```
 
+## Como trabalhamos
+
+Issues, quadro Kanban, commits pequenos e branches: veja [docs/PROCESSO.md](docs/PROCESSO.md). O backlog inicial está em [docs/backlog/](docs/backlog/).
+
 ## Testes
 
 ```bash
