@@ -42,3 +42,12 @@ test('quadro: com as colunas reais do quadro (TO-DO, WIP, In Tests, DONE, BLOCK)
   const esperado = { backlog: 'Backlog', pronto: 'TO-DO', andamento: 'WIP', teste: 'In Tests', feito: 'DONE', bloqueado: 'BLOCK' };
   Object.entries(esperado).forEach(([estado, coluna]) => assert.equal(escolherOpcao(estado, REAIS)?.name, coluna, estado));
 });
+
+const { argsGraphql } = require('../tools/quadro.js');
+test('quadro: código só com dígitos vai como texto (-f) e o número do quadro como número (-F)', () => {
+  const a = argsGraphql('query', { o: '98236657', n: 7, owner: 'CaduCondo' });
+  const par = nome => a[a.indexOf(a.find(x => x.startsWith(nome + '='))) - 1];
+  assert.equal(par('o'), '-f', 'o código 98236657 precisa ir como texto');
+  assert.equal(par('owner'), '-f');
+  assert.equal(par('n'), '-F');
+});

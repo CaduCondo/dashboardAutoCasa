@@ -38,10 +38,15 @@ const MUTACAO_STATUS = `mutation($p:ID!,$i:ID!,$f:ID!,$o:String!){ updateProject
 
 const run = (args, env) => execFileSync('gh', args, { encoding: 'utf8', env: Object.assign({}, process.env, env || {}) }).trim();
 
-function graphql(token, query, vars) {
+/** Argumentos do `gh api graphql`: texto vai com -f (sempre texto) e só número de verdade vai com -F. */
+function argsGraphql(query, vars) {
   const args = ['api', 'graphql', '-f', `query=${query}`];
-  Object.entries(vars || {}).forEach(([k, v]) => args.push('-F', `${k}=${v}`));
-  return JSON.parse(run(args, { GH_TOKEN: token }));
+  Object.entries(vars || {}).forEach(([k, v]) => args.push(typeof v === 'number' ? '-F' : '-f', `${k}=${v}`));
+  return args;
+}
+
+function graphql(token, query, vars) {
+  return JSON.parse(run(argsGraphql(query, vars), { GH_TOKEN: token }));
 }
 
 function carregarQuadro(token, owner, numero) {
@@ -75,5 +80,5 @@ function main(argv) {
   issues.forEach(is => sincronizarIssue(token, quadro, is));
 }
 
-module.exports = { estadoDaIssue, escolherOpcao, COLUNAS, CONSULTA_QUADRO, MUTACAO_ADICIONAR, MUTACAO_STATUS };
+module.exports = { argsGraphql, estadoDaIssue, escolherOpcao, COLUNAS, CONSULTA_QUADRO, MUTACAO_ADICIONAR, MUTACAO_STATUS };
 if (require.main === module) main(process.argv.slice(2));
