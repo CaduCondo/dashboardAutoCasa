@@ -1,9 +1,8 @@
 #!/usr/bin/env node
 /* Cria etiquetas e issues no GitHub a partir de docs/backlog/*.md.
  *   node tools/criar_issues.js                       mostra o que faria (não cria nada)
- *   node tools/criar_issues.js --apply               cria etiquetas e issues (precisa do gh logado no repositório)
- *   node tools/criar_issues.js --apply --project 1 --owner SEU_USUARIO   também coloca cada issue no quadro
- * Ainda não foi testado contra um GitHub real: só o leitor dos arquivos tem testes automáticos.
+ *   node tools/criar_issues.js --apply --repo DONO/NOME   cria etiquetas e issues (usa `gh api`, só REST)
+ * Não cria issue repetida (compara o título). Cartões do quadro: veja a mensagem no final.
  */
 const fs = require('fs'), path = require('path'), { execFileSync } = require('child_process');
 
@@ -25,25 +24,35 @@ function carregar(dir) {
 
 function gh(args, input) { return execFileSync('gh', args, { input, encoding: 'utf8' }).trim(); }
 
+/* Usa só a API REST (`gh api`): o GraphQL não funciona nas sessões do Claude Code. */
+function repoAlvo(argv) {
+  const i = argv.indexOf('--repo');
+  const r = i >= 0 ? argv[i + 1] : process.env.GH_REPO;
+  if (!r || !/^[\w.-]+\/[\w.-]+$/.test(r)) throw new Error('Informe o repositório: --repo DONO/NOME (ou a variável GH_REPO).');
+  return r;
+}
+
 function main(argv) {
   const apply = argv.includes('--apply');
-  const arg = n => { const i = argv.indexOf(n); return i >= 0 ? argv[i + 1] : null; };
-  const project = arg('--project'), owner = arg('--owner');
-  let quadroRecusou = false;
   const issues = carregar(path.resolve(__dirname, '..', 'docs', 'backlog'));
   const labels = [...new Set(issues.flatMap(i => i.labels))];
   console.log(`${issues.length} issues, ${labels.length} etiquetas${apply ? '' : ' (simulação: use --apply para criar)'}`);
-  if (apply) labels.forEach(l => gh(['label', 'create', l, '--force', '--color', CORES[l.split(':')[0]] || 'ededed']));
-  issues.forEach(i => {
-    const corpo = `${i.body}\n\n---\nColuna do quadro: **${i.column}**`;
-    if (!apply) return console.log(`- [${i.column}] ${i.title}  (${i.labels.join(', ')})`);
-    const url = gh(['issue', 'create', '--title', i.title, '--label', i.labels.join(','), '--body-file', '-'], corpo);
-    console.log(url);
-    if (project && owner && !quadroRecusou) {
-      try { gh(['project', 'item-add', project, '--owner', owner, '--url', url]); }
-      catch (e) { quadroRecusou = true; console.warn('Não consegui colocar no quadro (falta permissão "project"?). As issues continuam sendo criadas.'); }
-    }
+  if (!apply) { issues.forEach(i => console.log(`- [${i.column}] ${i.title}  (${i.labels.join(', ')})`)); return; }
+  const repo = repoAlvo(argv);
+  labels.forEach(l => {
+    const cor = CORES[l.split(':')[0]] || 'ededed';
+    try { gh(['api', `repos/${repo}/labels`, '-f', `name=${l}`, '-f', `color=${cor}`]); }
+    catch (e) { gh(['api', '-X', 'PATCH', `repos/${repo}/labels/${encodeURIComponent(l)}`, '-f', `color=${cor}`]); }
   });
+  const existentes = new Set(JSON.parse(gh(['api', `repos/${repo}/issues?state=all&per_page=100`, '--jq', '[.[].title]'])));
+  issues.forEach(i => {
+    if (existentes.has(i.title)) return console.log(`já existe: ${i.title}`);
+    const corpo = `${i.body}\n\n---\nColuna do quadro: **${i.column}**`;
+    const args = ['api', `repos/${repo}/issues`, '-f', `title=${i.title}`, '-f', `body=${corpo}`, '--jq', '.html_url'];
+    i.labels.forEach(l => args.push('-f', `labels[]=${l}`));
+    console.log(gh(args));
+  });
+  console.log('Para pôr no quadro: no projeto, "Add item" > repositório > selecionar tudo; ou ligue o fluxo "Auto-add to project".');
 }
 
 module.exports = { parseIssue, carregar, COLUNAS };
