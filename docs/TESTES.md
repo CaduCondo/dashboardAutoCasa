@@ -16,7 +16,7 @@ O projeto tem três camadas. Todas rodam sozinhas no GitHub Actions a cada push 
 - Gera `log.html` e `report.html` com cada passo, que o GitHub Actions guarda como artefato.
 - Há um Home Assistant simulado (`tests/mock-ha-server.js`), então a ligação com a casa é testada sem a casa.
 
-Ficou sem alternativa melhor porque o time já trabalha com Robot nos outros projetos, e o Browser cobre tudo o que o painel precisa.
+Também é a ferramenta que o dono do projeto já usa nos outros projetos, e o Browser cobre tudo o que o painel precisa.
 
 ## Rodar no seu computador
 
