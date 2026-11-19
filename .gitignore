@@ -3,3 +3,7 @@ config.local.js
 *.log
 .DS_Store
 test-results/
+results/
+__pycache__/
+*.pyc
+playwright-report/
