@@ -31,7 +31,7 @@ Ele deve ficar ligado por **cabo de rede** na mesma rede dos aparelhos.
 | **eWeLink** (Sonoff) | **SonoffLAN** (HACS) ou integração eWeLink | Modo LAN é mais rápido e funciona sem internet. |
 | **Magic Home** (fitas de LED) | Integração **Magic Home** (já vem no Home Assistant, local) | Normalmente acha sozinha. |
 | **Alexa** | Não é necessária para ligar nada. Serve para **voz**: o Home Assistant mostra suas cenas para a Alexa | Via Nabu Casa (assinatura) ou integração Alexa Smart Home. |
-| **Home Remote** | Não precisa de integração própria. Os botões dele (Abrir porta, Limpar, Desligar limpar, ração chico, Ração gatos) são **cenas do Tuya**, que o Home Assistant traz como entidades `scene.*`. | Ver issue 02 do backlog. |
+| **Home Remote** | Não precisa de integração própria. Os botões dele (Abrir porta, Limpar, Desligar limpar, ração chico, Ração gatos) **não aparecem** no Home Assistant como cenas. Provavelmente são cenas do próprio app, e o que cada uma faz precisa ser descoberto e recriado. | Ver issue 02 do backlog. |
 
 ## Sem servidor, dá?
 
