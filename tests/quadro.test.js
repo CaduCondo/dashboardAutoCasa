@@ -27,3 +27,12 @@ test('quadro: com as colunas padrão do GitHub, usa os nomes em inglês e as apr
 test('quadro: sem coluna parecida devolve nada (o script avisa)', () => {
   assert.equal(escolherOpcao('feito', [{ id: 'z', name: 'Outra' }]), undefined);
 });
+
+const { parse } = require('graphql');
+const Q = require('../tools/quadro.js');
+
+test('quadro: todas as consultas GraphQL têm sintaxe válida (o GitHub recusou uma antes)', () => {
+  ['CONSULTA_QUADRO', 'MUTACAO_ADICIONAR', 'MUTACAO_STATUS'].forEach(nome => {
+    assert.doesNotThrow(() => parse(Q[nome]), `${nome} com sintaxe inválida`);
+  });
+});
