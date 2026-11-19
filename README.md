@@ -47,7 +47,7 @@ docs/                 instalação, integrações, revisão e a planta usada
 
 ## Como trabalhamos
 
-Issues, quadro Kanban, commits pequenos e branches: veja [docs/PROCESSO.md](docs/PROCESSO.md). O backlog inicial está em [docs/backlog/](docs/backlog/).
+Ciclo de trabalho, Kanban, commits e branches: [docs/PROCESSO.md](docs/PROCESSO.md). Fases e dependências: [docs/ROADMAP.md](docs/ROADMAP.md). Rascunhos das issues: [docs/backlog/](docs/backlog/).
 
 ## Testes
 
