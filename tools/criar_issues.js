@@ -29,6 +29,7 @@ function main(argv) {
   const apply = argv.includes('--apply');
   const arg = n => { const i = argv.indexOf(n); return i >= 0 ? argv[i + 1] : null; };
   const project = arg('--project'), owner = arg('--owner');
+  let quadroRecusou = false;
   const issues = carregar(path.resolve(__dirname, '..', 'docs', 'backlog'));
   const labels = [...new Set(issues.flatMap(i => i.labels))];
   console.log(`${issues.length} issues, ${labels.length} etiquetas${apply ? '' : ' (simulação: use --apply para criar)'}`);
@@ -38,7 +39,10 @@ function main(argv) {
     if (!apply) return console.log(`- [${i.column}] ${i.title}  (${i.labels.join(', ')})`);
     const url = gh(['issue', 'create', '--title', i.title, '--label', i.labels.join(','), '--body-file', '-'], corpo);
     console.log(url);
-    if (project && owner) gh(['project', 'item-add', project, '--owner', owner, '--url', url]);
+    if (project && owner && !quadroRecusou) {
+      try { gh(['project', 'item-add', project, '--owner', owner, '--url', url]); }
+      catch (e) { quadroRecusou = true; console.warn('Não consegui colocar no quadro (falta permissão "project"?). As issues continuam sendo criadas.'); }
+    }
   });
 }
 
