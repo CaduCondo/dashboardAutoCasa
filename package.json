@@ -8,7 +8,8 @@
     "test:unit": "node --test tests/unit.test.js tests/backlog.test.js tests/kanban.test.js",
     "test:e2e": "node --test --test-concurrency=1 tests/e2e.test.js",
     "test": "npm run test:unit && npm run test:e2e",
-    "lint": "node tools/lint.js"
+    "lint": "node tools/lint.js",
+    "test:robot": "python -m robot --outputdir results/robot tests/robot/features"
   },
   "devDependencies": {
     "eslint": "^9.0.0",
