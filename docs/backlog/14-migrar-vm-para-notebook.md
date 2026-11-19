@@ -1,6 +1,6 @@
 ---
 title: Migrar do Home Assistant na máquina virtual para o notebook definitivo
-labels: tipo:infra, area:hardware, prioridade:media
+labels: tipo:infra, area:hardware, prioridade:media, bloqueado
 column: Bloqueado
 ---
 ## Contexto

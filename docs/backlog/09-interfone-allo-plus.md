@@ -1,6 +1,6 @@
 ---
 title: Interfone Allo Plus: descobrir o que o modelo permite
-labels: tipo:infra, area:hardware, prioridade:alta
+labels: tipo:infra, area:hardware, prioridade:alta, bloqueado
 column: Bloqueado
 ---
 ## Contexto

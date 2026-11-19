@@ -1,9 +1,11 @@
 ---
 title: Portão automático: como acionar
-labels: tipo:infra, area:hardware, prioridade:alta
+labels: tipo:infra, area:hardware, prioridade:alta, bloqueado
 column: Bloqueado
 ---
 ## Contexto
+Bloqueado até o usuário dizer como o portão é acionado hoje e se a cena "Abrir porta" é o portão.
+
 Descobrir como o portão é comandado hoje (controle, central, app) e se a cena "Abrir porta" do Tuya é o portão. Definir cover, switch ou button no Home Assistant.
 
 ## Critérios de aceite

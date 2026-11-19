@@ -1,6 +1,6 @@
 ---
 title: Mostrar as cenas do Tuya no painel (Abrir porta, Limpar, ração)
-labels: tipo:feature, area:painel, area:home-assistant, prioridade:alta
+labels: tipo:feature, area:painel, area:home-assistant, prioridade:alta, bloqueado
 column: Bloqueado
 ---
 ## Contexto
