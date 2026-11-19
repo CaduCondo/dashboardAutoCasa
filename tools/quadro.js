@@ -41,7 +41,7 @@ const run = (args, env) => execFileSync('gh', args, { encoding: 'utf8', env: Obj
 /** Argumentos do `gh api graphql`: texto vai com -f (sempre texto) e só número de verdade vai com -F. */
 function argsGraphql(query, vars) {
   const args = ['api', 'graphql', '-f', `query=${query}`];
-  Object.entries(vars || {}).forEach(([k, v]) => args.push('-F', `${k}=${v}`));
+  Object.entries(vars || {}).forEach(([k, v]) => args.push(typeof v === 'number' ? '-F' : '-f', `${k}=${v}`));
   return args;
 }
 
