@@ -32,6 +32,10 @@ function escolherOpcao(estado, opcoes) {
   return procura(COLUNAS[estado] || []) || (FALLBACK[estado] ? procura(COLUNAS[FALLBACK[estado]]) : undefined);
 }
 
+const CONSULTA_QUADRO = `query($owner:String!,$n:Int!){ user(login:$owner){ projectV2(number:$n){ id fields(first:30){ nodes{ ... on ProjectV2SingleSelectField{ id name options{ id name } } } } } } }`;
+const MUTACAO_ADICIONAR = `mutation($p:ID!,$c:ID!){ addProjectV2ItemById(input:{projectId:$p,contentId:$c}){ item{ id } } }`;
+const MUTACAO_STATUS = `mutation($p:ID!,$i:ID!,$f:ID!,$o:String!){ updateProjectV2ItemFieldValue(input:{projectId:$p,itemId:$i,fieldId:$f,value:{singleSelectOptionId:$o}}){ projectV2Item{ id } } }`;
+
 const run = (args, env) => execFileSync('gh', args, { encoding: 'utf8', env: Object.assign({}, process.env, env || {}) }).trim();
 
 function graphql(token, query, vars) {
@@ -41,8 +45,7 @@ function graphql(token, query, vars) {
 }
 
 function carregarQuadro(token, owner, numero) {
-  const q = `query($owner:String!,$n:Int!){ user(login:$owner){ projectV2(number:$n){ id fields(first:30){ nodes{ ... on ProjectV2SingleSelectField{ id name options{ id name } } } } } } } }`;
-  const r = graphql(token, q, { owner, n: numero });
+  const r = graphql(token, CONSULTA_QUADRO, { owner, n: numero });
   const p = r.data.user.projectV2;
   const status = p.fields.nodes.find(f => f && f.name === 'Status');
   if (!status) throw new Error('O quadro não tem o campo "Status".');
@@ -53,9 +56,9 @@ function sincronizarIssue(token, quadro, issue) {
   const estado = estadoDaIssue(issue.labels.map(l => l.name), issue.state === 'open');
   const opcao = escolherOpcao(estado, quadro.opcoes);
   if (!opcao) { console.warn(`#${issue.number}: nenhuma coluna combina com "${estado}". Colunas do quadro: ${quadro.opcoes.map(o => o.name).join(', ')}`); return; }
-  const add = graphql(token, `mutation($p:ID!,$c:ID!){ addProjectV2ItemById(input:{projectId:$p,contentId:$c}){ item{ id } } }`, { p: quadro.id, c: issue.node_id });
+  const add = graphql(token, MUTACAO_ADICIONAR, { p: quadro.id, c: issue.node_id });
   const item = add.data.addProjectV2ItemById.item.id;
-  graphql(token, `mutation($p:ID!,$i:ID!,$f:ID!,$o:String!){ updateProjectV2ItemFieldValue(input:{projectId:$p,itemId:$i,fieldId:$f,value:{singleSelectOptionId:$o}}){ projectV2Item{ id } } }`, { p: quadro.id, i: item, f: quadro.statusId, o: opcao.id });
+  graphql(token, MUTACAO_STATUS, { p: quadro.id, i: item, f: quadro.statusId, o: opcao.id });
   console.log(`#${issue.number} → ${opcao.name}`);
 }
 
@@ -72,5 +75,5 @@ function main(argv) {
   issues.forEach(is => sincronizarIssue(token, quadro, is));
 }
 
-module.exports = { estadoDaIssue, escolherOpcao, COLUNAS };
+module.exports = { estadoDaIssue, escolherOpcao, COLUNAS, CONSULTA_QUADRO, MUTACAO_ADICIONAR, MUTACAO_STATUS };
 if (require.main === module) main(process.argv.slice(2));
